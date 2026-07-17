@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://ntfy.sh; script-src 'self'; style-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'">
+  <title>RadioBridge Mobile</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <main class="shell">
+    <section class="card" aria-live="polite">
+      <div class="eyebrow">RadioBridge Mobile</div>
+      <h1 id="title">Загрузка вызова…</h1>
+      <p id="message" class="message">Проверяю ссылку уведомления.</p>
+      <dl id="details" class="details" hidden></dl>
+      <div id="comments" class="comments" hidden></div>
+      <div id="actions" class="actions" hidden></div>
+      <form id="comment-form" class="comment" hidden>
+        <label for="comment">Комментарий</label>
+        <textarea id="comment" maxlength="500" rows="4" placeholder="Опишите выполненное действие"></textarea>
+        <div class="comment-footer"><span id="counter">0/500</span><button type="submit">Отправить комментарий</button></div>
+      </form>
+      <div id="status" class="status" hidden></div>
+    </section>
+    <footer id="version"></footer>
+  </main>
+  <script src="config.js"></script>
+  <script src="js/codec.js"></script>
+  <script src="js/ntfy.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
