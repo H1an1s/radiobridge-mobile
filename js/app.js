@@ -12,11 +12,11 @@
   async function send(action,comment=""){
     if(busy||expired())return; if((action==="complete"||action==="help")&&!confirm(action==="complete"?"Завершить этот вызов?":"Запросить помощь и вернуть вызов в активное состояние?"))return;
     messageId=messageId||newMessageId(); setBusy(true);$("status").hidden=false;$("status").className="status";$("status").textContent="Передаю команду в ntfy…";
-    try{await window.RadioBridgeNtfy.publish({type:"call.action",action_token:payload.token,action,...(comment?{comment}:{})},messageId);$("status").textContent="Команда передана в RadioBridge. Окончательный результат подтвердит следующее уведомление Bark.";$("actions").hidden=true;$("comment-form").hidden=true;payload.token=""}
+    try{await window.RadioBridgeNtfy.publish({type:"call.action",action_token:payload.token,action,...(comment?{comment}:{})},messageId,payload.ntfy_topic);$("status").textContent="Команда передана в RadioBridge. Окончательный результат подтвердит следующее уведомление Bark.";$("actions").hidden=true;$("comment-form").hidden=true;payload.token=""}
     catch(e){$("status").className="status error";$("status").textContent=e.message+". Повтор использует тот же идентификатор команды.";setBusy(false)}
   }
   function renderTest(){
-    $("title").textContent=payload.title;$("message").textContent=payload.message;$("details").hidden=true;$("comments").hidden=true;$("actions").hidden=true;$("comment-form").hidden=true;$("status").hidden=false;$("status").className="status";$("status").textContent="Тестовая карточка открылась. GitHub Pages URL в Bark работает.";
+    $("title").textContent=payload.title;$("message").textContent=payload.message;$("details").hidden=true;$("comments").hidden=true;$("actions").hidden=true;$("comment-form").hidden=true;$("status").hidden=false;$("status").className="status";$("status").textContent="Тестовая карточка открылась. URL мобильного Web UI в Bark работает.";
   }
   function render(){
     if(payload.type==="system.test"){renderTest();return}
