@@ -6,8 +6,8 @@
     const server=cfg.ntfyServer.replace(/\/$/,"");
     const allowed=(cfg.allowedNtfyServers||["https://ntfy.sh"]).map((item)=>String(item).replace(/\/$/,""));
     if(!allowed.includes(server)) throw new Error("ntfy server не разрешён CSP/config.js");
-    const topic=String(topicOverride||cfg.ntfyTopic||"").trim();
-    if(!/^[A-Za-z0-9_-]{20,}$/.test(topic)||topic.startsWith("CHANGE_ME")) throw new Error("ntfy topic не настроен в ссылке/config.js");
+    const topic=String(topicOverride||"").trim();
+    if(!/^[A-Za-z0-9_-]{20,}$/.test(topic)||topic.startsWith("CHANGE_ME")) throw new Error("ntfy topic отсутствует в Bark-ссылке");
     const body=`MOBILEIN:1:${messageId}:${window.RadioBridgeCodec.encodeBase64Url(JSON.stringify(command))}`;
     const controller=new AbortController(); const timeout=setTimeout(()=>controller.abort(),cfg.requestTimeoutMs||12000);
     try{
