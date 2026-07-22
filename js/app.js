@@ -10,6 +10,7 @@
   function expired(){return Date.now()>=Date.parse(payload.expires_at)}
   function newMessageId(){return crypto.randomUUID?crypto.randomUUID():`${Date.now()}-${Math.random().toString(36).slice(2)}`}
   function setBusy(value){busy=value;document.querySelectorAll("button,textarea").forEach(el=>el.disabled=value)}
+  function currentComment(){const el=$("comment");return el?el.value.trim():""}
   async function send(action,comment=""){
     if(busy||expired())return; if((action==="complete"||action==="help")&&!confirm(action==="complete"?"Завершить этот вызов?":"Запросить помощь и вернуть вызов в активное состояние?"))return;
     messageId=messageId||newMessageId(); setBusy(true);$("status").hidden=false;$("status").className="status";$("status").textContent=`Передаю команду в Firebase channel ${maskedTopic(payload.firebase_channel)}…`;
@@ -23,8 +24,8 @@
     if(payload.type==="system.test"){renderTest();return}
     const c=payload.call;$("title").textContent=c.node_name;$("message").textContent="Управление вызовом через защищённый одноразовый токен.";$("details").innerHTML="";addDetail("ID",c.public_id);addDetail("Статус",labels[c.state]||c.state);addDetail("Отдел",(c.department_names||[]).join(", "));addDetail("Оператор",c.initiated_by);addDetail("Firebase channel",maskedTopic(payload.firebase_channel));addDetail("Создан",new Date(c.started_at).toLocaleString());addDetail("Ссылка до",new Date(payload.expires_at).toLocaleString());$("details").hidden=false;renderComments(c.last_comments);
     if(expired()){showError("Срок действия этой ссылки истёк.");return}
-    $("actions").innerHTML="";payload.actions.filter(a=>a!=="comment").forEach(action=>{const b=document.createElement("button");b.type="button";b.textContent=actionLabels[action]||action;b.className=action==="complete"?"danger":action==="help"?"secondary":"";b.addEventListener("click",()=>send(action));$("actions").appendChild(b)});$("actions").hidden=$("actions").children.length===0;
-    if(payload.actions.includes("comment")){$("comment-form").hidden=false;$("comment").addEventListener("input",()=>$("counter").textContent=`${$("comment").value.length}/500`);$("comment-form").addEventListener("submit",e=>{e.preventDefault();const text=$("comment").value.trim();if(text)send("comment",text)})}
+    $("actions").innerHTML="";payload.actions.filter(a=>a!=="comment").forEach(action=>{const b=document.createElement("button");b.type="button";b.textContent=actionLabels[action]||action;b.className=action==="complete"?"danger":action==="help"?"secondary":"";b.addEventListener("click",()=>send(action,currentComment()));$("actions").appendChild(b)});$("actions").hidden=$("actions").children.length===0;
+    if($("actions").children.length>0){$("comment-form").hidden=false;$("comment").addEventListener("input",()=>$("counter").textContent=`${$("comment").value.length}/500`)}
   }
   document.addEventListener("DOMContentLoaded",()=>{$("version").textContent=`Версия ${(window.RADIOBRIDGE_CONFIG||{}).appVersion||"dev"}`;try{payload=window.RadioBridgeCodec.parseFragment(location.hash);history.replaceState(null,document.title,location.pathname+location.search);render()}catch(e){showError(e.message)}});
 })();
