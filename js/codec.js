@@ -27,7 +27,7 @@
     }
     const allowed=new Set(["take","complete","help","comment"]);
     if(typeof p.token!=="string"||p.token.length<20) throw new Error("Недействительная ссылка действия");
-    if(typeof p.ntfy_topic!=="string"||!/^[A-Za-z0-9_-]{20,}$/.test(p.ntfy_topic)||p.ntfy_topic.startsWith("CHANGE_ME")) throw new Error("В Bark-ссылке отсутствует корректный ntfy topic. Откройте новое уведомление после обновления ESP32");
+    if(typeof p.firebase_channel!=="string"||!/^[A-Za-z0-9_-]{20,160}$/.test(p.firebase_channel)||p.firebase_channel.startsWith("CHANGE_ME")) throw new Error("В Bark-ссылке отсутствует корректный Firebase channel. Откройте новое уведомление после обновления ESP32");
     if(!p.call||typeof p.call!=="object"||typeof p.call.public_id!=="string"||typeof p.call.node_name!=="string") throw new Error("В ссылке отсутствует карточка вызова");
     if(p.call.public_id.length>120||p.call.node_name.length>160) throw new Error("Некорректный размер карточки вызова");
     if(!Array.isArray(p.actions)||p.actions.some(a=>!allowed.has(a))) throw new Error("Некорректный список действий");
