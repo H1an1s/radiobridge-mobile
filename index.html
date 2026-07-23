@@ -13,6 +13,7 @@
 <body>
   <main class="shell">
     <section class="card" aria-live="polite">
+      <img id="state-icon" class="state-icon" alt="" hidden>
       <div class="eyebrow">RadioBridge Mobile</div>
       <h1 id="title">Загрузка вызова…</h1>
       <p id="message" class="message">Проверяю ссылку уведомления.</p>
@@ -21,8 +22,8 @@
       <div id="actions" class="actions" hidden></div>
       <form id="comment-form" class="comment" hidden>
         <label for="comment">Комментарий</label>
-        <textarea id="comment" maxlength="500" rows="4" placeholder="Опишите выполненное действие"></textarea>
-        <div class="comment-footer"><span id="counter">0/500</span></div>
+        <textarea id="comment" maxlength="200" rows="4" placeholder="Опишите выполненное действие"></textarea>
+        <div class="comment-footer"><span id="counter">0/200</span></div>
       </form>
       <div id="status" class="status" hidden></div>
     </section>

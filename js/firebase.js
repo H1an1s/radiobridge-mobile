@@ -3,7 +3,7 @@
   const cfg=()=>window.RADIOBRIDGE_CONFIG||{};
   async function publish(command,messageId,channelOverride){
     const cfgv=cfg(); const channel=String(channelOverride||cfgv.firebaseChannel||"").trim();
-    if(!/^[A-Za-z0-9_-]{20,160}$/.test(channel)||channel.startsWith("CHANGE_ME")) throw new Error("Firebase channel отсутствует в Bark-ссылке");
+    if(!/^[A-Za-z0-9_-]{20,160}$/.test(channel)||channel.startsWith("CHANGE_ME")) throw new Error("Параметры доставки отсутствуют в Bark-ссылке");
     const base=String(cfgv.firebaseDatabaseUrl||"").replace(/\/$/,"");
     if(!/^https:\/\/[A-Za-z0-9.-]+\.firebasedatabase\.app$/.test(base)) throw new Error("Firebase Database URL не настроен");
     const body=`MOBILEIN:1:${messageId}:${window.RadioBridgeCodec.encodeBase64Url(JSON.stringify(command))}`;
